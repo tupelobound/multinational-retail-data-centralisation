@@ -23,7 +23,10 @@ class DatabaseConnector:
     
 
     def list_db_tables(self):
+        '''Gets the table names of a database'''
+        # Call inspect() on init_db_engine() class method to create inspector object
         inspector = inspect(self.init_db_engine())
+        # Call get_table_names() method on inspector and return
         return inspector.get_table_names()
         
 
