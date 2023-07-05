@@ -9,4 +9,4 @@ class DataExtractor:
 
 if __name__ == "__main__":
     test = DataExtractor()
-    print(test.read_rds_table(DatabaseConnector, 'legacy_users').info())
+    test.read_rds_table(DatabaseConnector, 'legacy_users').to_csv('users.csv')
