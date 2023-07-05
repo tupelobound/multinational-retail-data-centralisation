@@ -1,5 +1,5 @@
 import yaml
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 
 
 class DatabaseConnector:
@@ -20,7 +20,12 @@ class DatabaseConnector:
                             f"{db_credentials['RDS_HOST']}:{db_credentials['RDS_PORT']}/{db_credentials['RDS_DATABASE']}"
         # Create new sqlalchemy database engine and return
         return create_engine(connection_string)
+    
 
+    def list_db_tables(self):
+        inspector = inspect(self.init_db_engine())
+        return inspector.get_table_names()
+        
 
 test = DatabaseConnector()
 print(test.list_db_tables())
