@@ -1,7 +1,6 @@
 import yaml
 from sqlalchemy import create_engine, inspect
 
-
 class DatabaseConnector:
     def read_db_creds(self):
         '''Opens the YAML file containing the database credentials and returns the credentials as a dictionary.'''
@@ -28,8 +27,3 @@ class DatabaseConnector:
         inspector = inspect(self.init_db_engine())
         # Call get_table_names() method on inspector and return
         return inspector.get_table_names()
-
-
-if __name__ == "__main__":
-    test = DatabaseConnector()
-    print(test.list_db_tables())
