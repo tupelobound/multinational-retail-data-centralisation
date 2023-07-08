@@ -5,8 +5,3 @@ class DataExtractor:
     def read_rds_table(self, connector, table):
         engine = connector().init_db_engine()
         return pd.read_sql_table(table, engine)
-
-
-if __name__ == "__main__":
-    test = DataExtractor()
-    test.read_rds_table(DatabaseConnector, 'legacy_users').to_csv('users.csv')
