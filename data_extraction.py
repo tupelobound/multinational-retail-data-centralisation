@@ -1,4 +1,3 @@
-from database_utils import DatabaseConnector
 import pandas as pd
 
 class DataExtractor:
