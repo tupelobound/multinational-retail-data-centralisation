@@ -7,5 +7,5 @@ extractor = DataExtractor()
 cleaner = DataCleaning()
 
 users = extractor.read_rds_table(connector, 'legacy_users')
-print(cleaner.clean_user_data(users))
+cleaner.clean_user_data(users).to_csv('users.csv')
 
