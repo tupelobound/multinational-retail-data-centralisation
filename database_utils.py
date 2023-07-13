@@ -2,10 +2,14 @@ import yaml
 from sqlalchemy import create_engine, inspect
 
 class DatabaseConnector:
+    def __init__(self, filename):
+        self.filename = filename
+
+
     def read_db_creds(self):
         '''Opens the YAML file containing the database credentials and returns the credentials as a dictionary.'''
         # Use context manager to open file
-        with open('db_creds.yaml', 'r') as file:
+        with open(self.filename, 'r') as file:
             # load contents into dictionary and return
             return yaml.safe_load(file)
     
@@ -28,5 +32,6 @@ class DatabaseConnector:
         # Call get_table_names() method on inspector and return
         return inspector.get_table_names()
 
-    def upload_to_db(self):
-        pass
+    def upload_to_db(self, dataframe, table):
+        engine = self.init_db_engine()
+        dataframe.to_sql(table, engine, if_exists='replace')
