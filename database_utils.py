@@ -27,3 +27,6 @@ class DatabaseConnector:
         inspector = inspect(self.init_db_engine())
         # Call get_table_names() method on inspector and return
         return inspector.get_table_names()
+
+    def upload_to_db(self):
+        pass
