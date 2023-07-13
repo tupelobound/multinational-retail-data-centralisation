@@ -23,7 +23,6 @@ class DataCleaning:
         users['country'] = users['country'].astype('category')
         # convert country code column to categorical data type
         users['country_code'] = users['country_code'].astype('category')
-
-        print(users.info())
-
+        # remove country codes and non numeric characters from phone numbers
+        users['phone_number'] = users['phone_number'].str.replace('[(). -]+|\+1|\+44|\+49|x\w+', '', regex=True)
         return users
