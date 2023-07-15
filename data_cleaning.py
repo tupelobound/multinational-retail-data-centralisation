@@ -31,3 +31,8 @@ class DataCleaning:
         cards = dataframe
         # TODO - cleaning of card details
         return cards
+    
+    def clean_store_data(self, dataframe):
+        stores = dataframe
+        # TODO - cleaning of store details
+        return stores
