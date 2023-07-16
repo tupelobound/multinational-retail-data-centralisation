@@ -26,3 +26,11 @@ class DataExtractor:
             new_dataframe = pd.DataFrame(response.json(), index=[0])
             stores = pd.concat([stores, new_dataframe])
         return stores
+    
+    def extract_from_s3(self, endpoint):
+        if endpoint[-3:] == 'csv':
+            # need to install s3fs library
+            return pd.read_csv(endpoint)
+        elif endpoint[-4:] == 'json':
+            return pd.read_json(endpoint)
+        
