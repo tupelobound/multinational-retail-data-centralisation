@@ -5,14 +5,12 @@ class DatabaseConnector:
     def __init__(self, filename):
         self.filename = filename
 
-
     def read_db_creds(self):
         '''Opens the YAML file containing the database credentials and returns the credentials as a dictionary.'''
         # Use context manager to open file
         with open(self.filename, 'r') as file:
             # load contents into dictionary and return
             return yaml.safe_load(file)
-    
 
     def init_db_engine(self):
         '''Creates a connection string of database credentials and uses that string to create and return sqlalchemy database engine.'''
@@ -23,7 +21,6 @@ class DatabaseConnector:
                             f"{db_credentials['RDS_HOST']}:{db_credentials['RDS_PORT']}/{db_credentials['RDS_DATABASE']}"
         # Create new sqlalchemy database engine and return
         return create_engine(connection_string)
-    
 
     def list_db_tables(self):
         '''Gets the table names of a database'''
