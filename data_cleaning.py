@@ -36,3 +36,29 @@ class DataCleaning:
         stores = dataframe
         # TODO - cleaning of store details
         return stores
+
+    def clean_products_data(self, dataframe):
+        products = dataframe
+        # TODO - cleaning of product details
+        products.dropna(inplace=True)
+        self.convert_product_weights(products)
+        return products
+    
+    def convert_product_weights(self, dataframe):
+        products = dataframe
+        # TODO - conversion logic
+        products['weight'] = products['weight'].apply(lambda x: x + '*')
+        return products
+    
+    def clean_orders_data(self, dataframe):
+        orders = dataframe
+        # drop redundant index column
+        orders.drop('level_0', axis=1, inplace=True)
+        # TODO - cleaning of orders details
+        print(orders.info())
+        return orders
+    
+    def clean_date_events(self, dataframe):
+        date_events = dataframe
+        # TODO - cleaning of store details
+        return date_events
