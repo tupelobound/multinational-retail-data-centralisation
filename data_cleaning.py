@@ -92,13 +92,14 @@ class DataCleaning:
     
     def clean_orders_data(self, dataframe):
         orders = dataframe
-        # drop redundant index column
-        orders.drop('level_0', axis=1, inplace=True)
-        # TODO - cleaning of orders details
-        print(orders.info())
+        # drop redundant columns
+        orders.drop(['level_0', 'index', 'first_name', 'last_name', '1'], axis=1, inplace=True)
         return orders
     
     def clean_date_events(self, dataframe):
         date_events = dataframe
         # TODO - cleaning of store details
+        date_events['id_length'] = date_events['date_uuid'].str.len()
+        print(date_events.info())
+
         return date_events
