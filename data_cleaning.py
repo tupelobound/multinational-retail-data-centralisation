@@ -31,7 +31,16 @@ class DataCleaning:
 
     def clean_card_data(self, dataframe):
         cards = dataframe
-        # TODO - cleaning of card details
+        # drop rows that contain 'NULL' strings
+        cards.drop(cards[cards.card_number == 'NULL'].index, inplace=True)
+        # drop rows where expiry date is not standard 5 characters in length
+        cards.drop(cards[cards['expiry_date'].str.len() != 5].index, inplace=True)
+        # cast card numbers as strings
+        cards['card_number'] = cards['card_number'].astype(str)
+        # remove question marks from card numbers
+        cards['card_number'] = cards['card_number'].str.replace('\D+', '', regex=True)
+        # convert date payment confirmed column to datetime type
+        cards['date_payment_confirmed'] = pd.to_datetime(cards['date_payment_confirmed'])
         return cards
     
     def clean_store_data(self, dataframe):
