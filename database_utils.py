@@ -31,4 +31,4 @@ class DatabaseConnector:
 
     def upload_to_db(self, dataframe, table):
         engine = self.init_db_engine()
-        dataframe.to_sql(table, engine, if_exists='replace')
+        dataframe.to_sql(table, engine, index=False, if_exists='replace')
