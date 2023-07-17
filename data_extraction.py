@@ -24,7 +24,7 @@ class DataExtractor:
         for store_number in range(0, self.list_number_of_stores()):
             response = requests.get(self.get_store_endpoint + str(store_number), headers=self.api_header)
             new_dataframe = pd.DataFrame(response.json(), index=[0])
-            stores = pd.concat([stores, new_dataframe])
+            stores = pd.concat([stores, new_dataframe], ignore_index=True)
         return stores
     
     def extract_from_s3(self, endpoint):
