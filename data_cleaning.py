@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 
 class DataCleaning:
     def clean_user_data(self, dataframe):
@@ -61,15 +62,32 @@ class DataCleaning:
 
     def clean_products_data(self, dataframe):
         products = dataframe
-        # TODO - cleaning of product details
+        # drop rows with null values
         products.dropna(inplace=True)
+        # convert product weights to kilogram floats
         self.convert_product_weights(products)
+        # drop rows where weights are strings
+        products.drop(products[products['weight'].apply(lambda x: isinstance(x, str))].index, inplace=True)
+        # drop redundant index column
+        products.drop('Unnamed: 0', axis=1, inplace=True)
+        # convert date_added column to datetime type
+        products['date_added'] = pd.to_datetime(products['date_added'])
         return products
     
     def convert_product_weights(self, dataframe):
         products = dataframe
-        # TODO - conversion logic
-        products['weight'] = products['weight'].apply(lambda x: x + '*')
+        def strip_and_convert_to_float(weight: str):
+            if weight[-2:] == 'kg':
+                return float(weight[:-2])
+            elif weight.find(' x ') != -1:
+                return eval(weight.replace(' x ', '*')[:-1]) / 1000
+            elif weight[-1] == 'g' or weight[-2:] == 'ml' or weight.find('.') != -1:
+                return float(re.sub('[^0-9]', '', weight)) / 1000
+            elif weight[-2:] == 'oz':
+                return float(weight[:-2]) * 0.0283495
+            else:
+                return weight
+        products['weight'] = products['weight'].apply(strip_and_convert_to_float)
         return products
     
     def clean_orders_data(self, dataframe):
