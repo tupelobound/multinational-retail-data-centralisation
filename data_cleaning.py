@@ -3,28 +3,30 @@ import pandas as pd
 class DataCleaning:
     def clean_user_data(self, dataframe):
         users = dataframe
-        # drop rows that contain 'NULL' strings
-        # users.drop(users[users.first_name == 'NULL'].index, inplace=True)
-        # drop rows where unique user id is not standard 36 characters in length
-        # users.drop(users[users['user_uuid'].str.len() != 36].index, inplace=True)
         # drop redundant index column
-        # users.drop('index', axis=1, inplace=True)
+        users.drop('index', axis=1, inplace=True)
+        # drop rows that contain 'NULL' strings
+        users.drop(users[users.first_name == 'NULL'].index, inplace=True)
+        # drop rows where unique user id is not standard 36 characters in length
+        users.drop(users[users['user_uuid'].str.len() != 36].index, inplace=True)
         # remove line breaks from addresses
-        # users['address'] = users['address'].str.replace('\n', ' ')
+        users['address'] = users['address'].str.replace('\n', ' ')
         # convert date of birth column to datetime type
-        # users['date_of_birth'] = pd.to_datetime(users['date_of_birth'])
+        users['date_of_birth'] = pd.to_datetime(users['date_of_birth'])
         # convert join date column to datetime type
-        # users['join_date'] = pd.to_datetime(users['join_date'])
+        users['join_date'] = pd.to_datetime(users['join_date'])
         # drop users whose birthday is later than their join date
         # users.drop(users[users['date_of_birth'] > users['join_date']].index, inplace=True)
         # correct 'GGB' values in country code column
-        # users['country_code'] = users['country_code'].apply(lambda x: 'GB' if x == 'GGB' else x)
-        # convert country column to categorical data type
-        # users['country'] = users['country'].astype('category')
-        # convert country code column to categorical data type
-        # users['country_code'] = users['country_code'].astype('category')
-        # remove country codes and non numeric characters from phone numbers
-        # users['phone_number'] = users['phone_number'].str.replace('[(). -]+|\+1|\+44|\+49|x\w+', '', regex=True)
+        users['country_code'] = users['country_code'].apply(lambda x: 'GB' if x == 'GGB' else x)
+        # remove country codes and/or extensions from phone numbers
+        users['phone_number'] = users['phone_number'].str.replace('\+1|\+44|\+49|x\w+', '', regex=True)
+        # remove non-numeric characters from phone numbers
+        users['phone_number'] = users['phone_number'].str.replace('\D+', '', regex=True)
+        # strip remaining country codes from US numbers
+        users['phone_number'] = users.apply(lambda x: x['phone_number'][-10:] if x['country_code'] == 'US' else x['phone_number'], axis=1)
+        # add missing preceding '0' to GB numbers
+        users['phone_number'] = users.apply(lambda x: '0' + x['phone_number'] if x['country_code'] == 'GB' and x['phone_number'][0] != '0' else x['phone_number'], axis=1)
         return users
 
     def clean_card_data(self, dataframe):
