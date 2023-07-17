@@ -45,7 +45,18 @@ class DataCleaning:
     
     def clean_store_data(self, dataframe):
         stores = dataframe
-        # TODO - cleaning of store details
+        # drop redundant index and lat columns
+        stores.drop(['index', 'lat'], axis=1, inplace=True)
+        # drop rows that contain 'NULL' strings
+        stores.drop(stores[stores.country_code == 'NULL'].index, inplace=True)
+        # drop rows where country code is not standard 2 characters in length
+        stores.drop(stores[stores['country_code'].str.len() != 2].index, inplace=True)
+        # convert opening date column to datetime type
+        stores['opening_date'] = pd.to_datetime(stores['opening_date'])
+        # change null value for web portal store
+        stores.loc[[0], ['latitude']] = 'N/A'
+        # clean incorrect values in continent column
+        stores['continent'] = stores['continent'].apply(lambda x: x[2:] if x[:2] == 'ee' else x)
         return stores
 
     def clean_products_data(self, dataframe):
