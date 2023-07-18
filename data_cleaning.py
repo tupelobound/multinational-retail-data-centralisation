@@ -98,8 +98,8 @@ class DataCleaning:
     
     def clean_date_events(self, dataframe):
         date_events = dataframe
-        # TODO - cleaning of store details
-        date_events['id_length'] = date_events['date_uuid'].str.len()
-        print(date_events.info())
-
+        # drop rows that contain 'NULL' strings
+        date_events.drop(date_events[date_events.timestamp == 'NULL'].index, inplace=True)
+        # drop rows where date uuid is not standard 36 characters in length
+        date_events.drop(date_events[date_events['date_uuid'].str.len() != 36].index, inplace=True)
         return date_events
