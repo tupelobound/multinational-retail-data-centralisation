@@ -54,10 +54,12 @@ class DataCleaning:
         stores.drop(stores[stores['country_code'].str.len() != 2].index, inplace=True)
         # convert opening date column to datetime type
         stores['opening_date'] = pd.to_datetime(stores['opening_date'])
-        # change null value for web portal store
-        stores.loc[[0], ['latitude']] = 'N/A'
+        # change N/A longitude value for web portal store
+        stores.loc[[0], ['longitude']] = pd.NA
         # clean incorrect values in continent column
         stores['continent'] = stores['continent'].apply(lambda x: x[2:] if x[:2] == 'ee' else x)
+        # clean text from staff_numbers column
+        stores['staff_numbers'] = stores['staff_numbers'].str.replace('[^0-9]', '', regex=True)
         return stores
 
     def clean_products_data(self, dataframe):
