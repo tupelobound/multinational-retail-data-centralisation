@@ -58,6 +58,8 @@ class DataCleaning:
         stores['opening_date'] = pd.to_datetime(stores['opening_date'])
         # change N/A longitude value for web portal store
         stores.loc[[0], ['longitude']] = pd.NA
+        # change location values for web portal store
+        stores.loc[[0], ['country_code', 'continent']] = 'N/A'
         # clean incorrect values in continent column
         stores['continent'] = stores['continent'].apply(lambda x: x[2:] if x[:2] == 'ee' else x)
         # clean text from staff_numbers column
