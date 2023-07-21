@@ -24,7 +24,7 @@ ALTER TABLE dim_store_details
     ALTER COLUMN opening_date TYPE DATE,
     ALTER COLUMN store_type TYPE VARCHAR(255),
     ALTER COLUMN store_type DROP NOT NULL,
-    ALTER COLUMN country_code TYPE VARCHAR(2),
+    ALTER COLUMN country_code TYPE VARCHAR(3),
     ALTER COLUMN continent TYPE VARCHAR(255),
     ADD PRIMARY KEY (store_code);
 
