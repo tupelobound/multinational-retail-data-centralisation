@@ -17,8 +17,8 @@ The different data sources that need to be extracted from and collected together
 
 By completing this project, I have built a pipeline for extracting the data from the various sources, transforming (cleaning) 
 the data, and loading the data into a new Postgresql database hosted locally. Once extracted and loaded, further transformation 
-of the data and database completed the schema. Finally, several SQL queries were written to enable users of the database to 
-query the data and extract meaningful insights from it.
+of the data and database was performed to complete the database schema. Finally, several SQL queries were written to enable 
+users of the database to query the data and extract meaningful insights from it.
 
 ## Tools used
 
