@@ -29,7 +29,7 @@ users of the database to query the data and extract meaningful insights from it.
 from sqlalchemy import create_engine, inspect
 ```
 
-From the SQLAlchemy documentation:
+From the [SQLAlchemy documentation](https://docs.sqlalchemy.org/en/20/tutorial/engine.html):
 
 > The start of any SQLAlchemy application is an object called the Engine. This object acts as a central source of connections 
 > to a particular database, providing both a factory as well as a holding space called a connection pool for these database 
@@ -39,7 +39,7 @@ From the SQLAlchemy documentation:
 For example:
 
 ```
-# Construct connection string using contents of dictionary
+# Construct connection string
 connection_string = f"postgresql+psycopg2://{db_username]}:{db_password}@" + f"{db_host]}:{db_port}/{db_database}"
 # Create new sqlalchemy database engine
 engine = create_engine(connection_string)
@@ -55,7 +55,8 @@ table_name_list = inspector.get_table_names()
 ### PyYAML
 
 The credentials for the databases are stored locally in YAML files. In order to access the credentials to pass into the 
-create_engine() method above, PyYAML was used to read the YAML files and load the contents into a dictionary:
+create_engine() method above, [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation) was used to read the YAML files and load 
+the contents into a dictionary:
 
 ```
 # Use context manager to open file
