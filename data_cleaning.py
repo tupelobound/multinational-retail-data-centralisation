@@ -1,5 +1,5 @@
 import pandas as pd
-import re
+import re # for regular expressions
 
 class DataCleaning:
     '''This class contains methods for cleaning data from various sources
@@ -7,28 +7,36 @@ class DataCleaning:
     Methods
     -------
     clean_user_data(self, dataframe):
-        Takes a dataframe containing user data and cleans redundant columns and rows containing null or incorrect values before
-        returning the cleaned dataframe.
+        Cleans DataFrame containing business user data.
     clean_card_data(self, dataframe):
-        Takes a dataframe containing credit card data and cleans null and incorrect values and returns the cleaned dataframe.
+        Cleans DataFrame containing credit card data from business transactions.
     clean_store_data(self, dataframe):
-        Takes a dataframe containing store information from different countries, drops redundant columns, cleans null or
-        incorrect values, and returns cleaned dataframe.
+        Cleans DataFrame containing details of each of the business' stores
     convert_product_weights(self, dataframe):
-        Takes a dataframe of products and utilises an internal method to strip weights of unit strings and convert weights to
-        floats before returning the dataframe with converted weights.  
+        Converts values in weight column of DataFrame to kilograms and to type floating point number
     clean_products_data(self, dataframe):
-        Takes a dataframe containing information about the products sold by the business, utilises the convert_product_weights()
-        method to convert all weights to kilograms, cleans null or incorrect values and drops redundant columns before returning
-        cleaned dataframe.
+        Cleans DataFrame containing information about all products sold by the business.
     clean_orders_data(self, dataframe):
-        Drops redundant columns from dataframe containing all the orders for the business before returning cleaned dataframe.
+        Cleans main orders DataFrame.
     clean_date_events(self, dataframe):
-        Drops rows containing null or incorrect values from dataframe containing sales event time data before returning the
-        cleaned dataframe.
+        Cleans DataFrame containing date events data for all orders received by the business.
     '''
     def clean_user_data(self, dataframe):
-        '''Cleans dataframe containing business user data.'''
+        '''Cleans DataFrame containing business user data.
+
+        Takes a DataFrame containing user data and cleans redundant columns and rows containing null or incorrect values before
+        returning the cleaned DataFrame.
+        
+        Parameters
+        ----------
+        dataframe: pandas.core.frame.DataFrame
+            pandas DataFrame containing user data
+        
+        Returns
+        -------
+        users: pandas.core.frame.DataFrame
+            Cleaned pandas DataFrame
+        '''
         users = dataframe
         # drop redundant index column
         users.drop('index', axis=1, inplace=True)
@@ -55,7 +63,20 @@ class DataCleaning:
         return users
 
     def clean_card_data(self, dataframe):
-        '''Cleans dataframe containing credit card data from business transactions.'''
+        '''Cleans DataFrame containing credit card data from business transactions.
+        
+        Takes a DataFrame containing credit card data and cleans null and incorrect values and returns the cleaned DataFrame.
+
+        Parameters
+        ----------
+        dataframe: pandas.core.frame.DataFrame
+            pandas DataFrame containing credit card data
+        
+        Returns
+        -------
+        users: pandas.core.frame.DataFrame
+            Cleaned pandas DataFrame
+        '''
         cards = dataframe
         # reset index
         cards.reset_index(inplace=True)
@@ -72,7 +93,21 @@ class DataCleaning:
         return cards
     
     def clean_store_data(self, dataframe):
-        '''Cleans dataframe containing details of each of the business' stores.'''
+        '''Cleans DataFrame containing details of each of the business' stores.
+        
+        Takes a DataFrame containing store information from different countries, drops redundant columns, cleans null or
+        incorrect values, and returns cleaned DataFrame.
+        
+        Parameters
+        ----------
+        dataframe: pandas.core.frame.DataFrame
+            pandas DataFrame containing detailed store information
+        
+        Returns
+        -------
+        users: pandas.core.frame.DataFrame
+            Cleaned pandas DataFrame
+        '''
         stores = dataframe
         # drop redundant index and lat columns
         stores.drop(['index', 'lat'], axis=1, inplace=True)
@@ -93,8 +128,21 @@ class DataCleaning:
         return stores
 
     def convert_product_weights(self, dataframe):
-        '''Takes a dataframe containing a column with weight data, and cleans the column of unit strings before converting
-        weights to kilograms of float data type.'''
+        '''Converts values in weight column of DataFrame to kilograms and to type floating point number.
+        
+        Takes a DataFrame of products and utilises an internal method to strip weights of unit strings and convert weights to
+        floats before returning the DataFrame with converted weights. 
+        
+         Parameters
+        ----------
+        dataframe: pandas.core.frame.DataFrame
+            pandas DataFrame containing product information, including 'weight' column
+        
+        Returns
+        -------
+        users: pandas.core.frame.DataFrame
+            pandas DataFrame with cleaned 'weight column'
+        '''
         products = dataframe
         def strip_and_convert_to_float(weight: str):
             '''Method to strip unit strings, convert to float data type, and convert to kilograms.'''
@@ -113,7 +161,22 @@ class DataCleaning:
         return products
     
     def clean_products_data(self, dataframe):
-        '''Cleans dataframe containing information about all products sold by the business.'''
+        '''Cleans DataFrame containing information about all products sold by the business.
+        
+        Takes a DataFrame containing information about the products sold by the business, utilises the convert_product_weights()
+        method to convert all weights to kilograms, cleans null or incorrect values and drops redundant columns before returning
+        cleaned DataFrame.
+        
+        Parameters
+        ----------
+        dataframe: pandas.core.frame.DataFrame
+            pandas DataFrame containing detailed product information
+        
+        Returns
+        -------
+        users: pandas.core.frame.DataFrame
+            Cleaned pandas DataFrame
+        '''
         products = dataframe
         # drop rows with null values
         products.dropna(inplace=True)
@@ -128,14 +191,41 @@ class DataCleaning:
         return products
     
     def clean_orders_data(self, dataframe):
-        '''Cleans main orders dataframe, containing ground truth data about all orders received by the business.'''
+        '''Cleans main orders DataFrame.
+        
+        Drops redundant columns from DataFrame containing all the orders for the business before returning cleaned DataFrame.
+        
+        Parameters
+        ----------
+        dataframe: pandas.core.frame.DataFrame
+            pandas DataFrame containing order data
+        
+        Returns
+        -------
+        users: pandas.core.frame.DataFrame
+            Cleaned pandas DataFrame
+        '''
         orders = dataframe
         # drop redundant columns
         orders.drop(['level_0', 'index', 'first_name', 'last_name', '1'], axis=1, inplace=True)
         return orders
     
     def clean_date_events(self, dataframe):
-        '''Cleans dataframe containing date events data for all orders received by the business.'''
+        '''Cleans DataFrame containing date events data for all orders received by the business.
+        
+        Drops rows containing null or incorrect values from DataFrame containing sales event time data before returning the
+        cleaned DataFrame.
+        
+        Parameters
+        ----------
+        dataframe: pandas.core.frame.DataFrame
+            pandas DataFrame containing order date and time event data
+        
+        Returns
+        -------
+        users: pandas.core.frame.DataFrame
+            Cleaned pandas DataFrame
+        '''
         date_events = dataframe
         # drop rows that contain 'NULL' strings
         date_events.drop(date_events[date_events.timestamp == 'NULL'].index, inplace=True)
