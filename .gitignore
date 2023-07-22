@@ -3,3 +3,4 @@ __pycache__
 users.csv
 local_creds.yaml
 aws_creds.yaml
+.env
