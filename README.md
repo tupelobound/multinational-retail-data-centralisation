@@ -90,4 +90,8 @@ response = requests.get({API_URL}, headers={HEADER_DICTIONARY})
 new_dataframe = pd.DataFrame(response.json(), index=[0])
 ```
 
-###
+### python-dotenv
+
+When hosting code on Github or any other public repository, it's a good idea to keep any API keys or database credentials
+separate from the hosted code. This can be done by using a .env file that is added to the .gitignore.
+[python-dotenv](https://pypi.org/project/python-dotenv/)
