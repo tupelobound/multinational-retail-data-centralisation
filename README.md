@@ -36,6 +36,9 @@ command, ensuring that env.yml is present in the project:
 
 `conda create env -f env.yml -n $ENVIRONMENT_NAME`
 
+It's worth noting that the pipeline won't run as it is without the AWS credentials or API key, but the DatabaseConnector
+and DataExtractor classes will work on other sources of data with amendments to API endpoints.
+
 ## Tools used
 
 ### SQLAlchemy
