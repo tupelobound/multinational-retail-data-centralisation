@@ -194,16 +194,16 @@ steps to connect:
 
 1. On the main application page, click on 'Add New Server'
 
-![Add server image](/multinational-retail-data-centralisation/images/Add_server.png)
+![Add server image](/images/Add_server.png)
 
 2. On the 'General' tab of the dialogue that appears, enter a name for the new server connection
 
-![General tab image](/multinational-retail-data-centralisation/images/Options1.png)
+![General tab image](/images/Options1.png)
 
 3. On the 'Connection' tab, enter 'localhost' for the 'Host name/address', and enter the username and password specified when
 creating the database.
 
-![](/multinational-retail-data-centralisation/images/Options2.png)
+![](/images/Options2.png)
 
 4. Click 'Save' to save the server and connect to the database.
 
