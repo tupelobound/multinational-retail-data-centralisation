@@ -20,6 +20,19 @@ the data, and loading the data into a new Postgresql database hosted locally. On
 of the data and database was performed to complete the database schema. Finally, several SQL queries were written to enable 
 users of the database to query the data and extract meaningful insights from it.
 
+## Project Dependencies
+
+In order to run this project, the following modules need to be installed:
+
+- `pandas`
+- `sqlalchemy`
+- `requests`
+- `tabula-py`
+- `python-dotenv`
+- `PyYAML`
+
+
+
 ## Tools used
 
 ### SQLAlchemy
@@ -60,10 +73,49 @@ the contents into a dictionary:
 
 ```python
 import yaml
+
 # Use context manager to open file
 with open(self.filename, 'r') as file:
     # load contents into dictionary
     contents_dictionary = yaml.safe_load(file)
+```
+
+### pandas
+
+[pandas](https://pandas.pydata.org/) is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool,
+built on top of the Python programming language. This project makes use of the pandas DataFrame, a two-dimensional data structure
+(essentially a table) that using pandas built in methods makes it easy to search, manipulate and visualise large sets of data.
+
+```python
+# convention is to give pandas the alias pd
+import pandas as pd
+```
+
+This project utilises many of pandas built in methods. A few common examples are listed below:
+
+```python
+# read SQL table from database connection established using SQLAlchemy
+dataframe = pd.read_sql_table(table_name, engine)
+# load DataFrame as new table into an existing database connection, don't load index, replace if already exists
+dataframe.to_sql(new_table, engine, index=False, if_exists='replace')
+# concatenate two DataFrames into one
+new_dataframe = pd.concat([dataframe1, dataframe2], ignore_index=True)
+# read contents of csv into DataFrame
+dataframe = pd.read_csv('file.csv')
+# read contents of json into DataFrame
+dataframe = pd.read_json('file.json')
+# drop a column from a DataFrame, inplace=True means action is performed on existing DataFrame
+dataframe.drop('column_name', axis=1, inplace=True)
+# drop any rows that contain null values
+dataframe.dropna(inplace=True)
+# convert a DataFrame column to datetime type
+pd.to_datetime(dataframe['column_name'])
+# apply a function (can be a lambda function) to a DataFrame or DataFrame column
+dataframe['column_name'] = dataframe['column_name'].apply(function)
+# reset the index
+dataframe.reset_index(inplace=True)
+# cast a column to a different data type
+dataframe['column_name'].astype(str)
 ```
 
 ### Tabula
@@ -73,6 +125,7 @@ to a pandas DataFrame or CSV/TSV/JSON file.
 
 ```python
 import tabula
+
 dataframe = tabula.read_pdf(link, pages='all')
 # depending on the table format, you may need to reset the index of the pandas DataFrame
 dataframe.reset_index(inplace=True)
@@ -84,6 +137,7 @@ In order to connect to API endpoints, [Requests](https://pypi.org/project/reques
 
 ```python
 import requests
+
 # make HTTPS GET request using URL of API endpoint and any necessary headers, i.e. x-api-key
 response = requests.get({API_URL}, headers={HEADER_DICTIONARY})
 # convert JSON response to pandas DataFrame
@@ -94,4 +148,22 @@ new_dataframe = pd.DataFrame(response.json(), index=[0])
 
 When hosting code on Github or any other public repository, it's a good idea to keep any API keys or database credentials
 separate from the hosted code. This can be done by using a .env file that is added to the .gitignore.
-[python-dotenv](https://pypi.org/project/python-dotenv/)
+[python-dotenv](https://pypi.org/project/python-dotenv/) is then used to access any environment variables stored in the .env
+file.
+
+In the .env file:
+
+```python
+API_HEADER=mysecretapikey
+```
+
+In the Python script:
+
+```python
+import os
+from dotenv import load_dotenv
+
+api_header = {'x-api-key': os.getenv("API_HEADER")}
+```
+
+
