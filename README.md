@@ -31,7 +31,10 @@ In order to run this project, the following modules need to be installed:
 - `python-dotenv`
 - `PyYAML`
 
+If you are using Anaconda and virtual environments (recommended), the Conda environment can be cloned by running the following
+command, ensuring that env.yml is present in the project:
 
+`conda create env -f env.yml -n $ENVIRONMENT_NAME`
 
 ## Tools used
 
@@ -165,5 +168,49 @@ from dotenv import load_dotenv
 
 api_header = {'x-api-key': os.getenv("API_HEADER")}
 ```
+
+## Setting up a local database
+
+A local Postgres database was set up to receive the cleaned data from the different sources. Postgres was installed globally
+using Homebrew:
+
+`brew install postgresql@14`
+
+The local database was created using the following command in the terminal:
+
+`initdb -D db -U postgres -W`
+
+where `db` is the directory containing the database files and `postgres` is the database username. The `-W` flag indicates that
+the database will be password protected and the user is prompted to enter the password upon running this command.
+
+The database can be started using:
+
+`postgres -D db`
+
+## Connecting to the local database using pgAdmin
+
+[pgAdmin](https://www.pgadmin.org/) is used to connect to the local database. With pgAdmin installed and running, follow these
+steps to connect:
+
+1. 
+2. 
+3. 
+
+## Project structure
+
+The project consists of three main classes, each with separate functions:
+
+- `DatabaseConnector` - in `database_utils.py` - contains all methods necessary for connecting and uploading to SQL databases
+- `DataExtractor` - in `data_extraction.py` - contains all methods necessary for retrieving data from various sources
+- `DataCleaning` - `data_cleaning.py` - contains all methods necessary for cleaning individual pandas DataFrames
+
+## Running the pipeline
+
+Running `main.py` will create the necessary instances of the three classes listed above, and sequentially extracts, cleans and
+loads data to the local database.
+
+## SQL Queries
+
+
 
 
