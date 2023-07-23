@@ -59,6 +59,7 @@ create_engine() method above, [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentati
 the contents into a dictionary:
 
 ```python
+import yaml
 # Use context manager to open file
 with open(self.filename, 'r') as file:
     # load contents into dictionary
@@ -67,3 +68,26 @@ with open(self.filename, 'r') as file:
 
 ### Tabula
 
+[Tabula](https://tabula-py.readthedocs.io/en/latest/#) is a simple tool for reading tables from pdf files and converting them
+to a pandas DataFrame or CSV/TSV/JSON file.
+
+```python
+import tabula
+dataframe = tabula.read_pdf(link, pages='all')
+# depending on the table format, you may need to reset the index of the pandas DataFrame
+dataframe.reset_index(inplace=True)
+```
+
+### Requests
+
+In order to connect to API endpoints, [Requests](https://pypi.org/project/requests/) was used to make HTTPS GET requests.
+
+```python
+import requests
+# make HTTPS GET request using URL of API endpoint and any necessary headers, i.e. x-api-key
+response = requests.get({API_URL}, headers={HEADER_DICTIONARY})
+# convert JSON response to pandas DataFrame
+new_dataframe = pd.DataFrame(response.json(), index=[0])
+```
+
+###
