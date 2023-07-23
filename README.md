@@ -25,7 +25,7 @@ users of the database to query the data and extract meaningful insights from it.
 ### SQLAlchemy
 [SQLAlchemy](https://www.sqlalchemy.org/) was used to connect to both the AWS and local SQL databases. In `database_utils.py`:
 
-```
+```python
 from sqlalchemy import create_engine, inspect
 ```
 
@@ -38,7 +38,7 @@ From the [SQLAlchemy documentation](https://docs.sqlalchemy.org/en/20/tutorial/e
 
 For example:
 
-```
+```python
 # Construct connection string
 connection_string = f"postgresql+psycopg2://{db_username]}:{db_password}@" + f"{db_host]}:{db_port}/{db_database}"
 # Create new sqlalchemy database engine
@@ -47,7 +47,7 @@ engine = create_engine(connection_string)
 
 The `inspect()` method is used to get information about a connected database:
 
-```
+```python
 inspector = inspect(engine)
 table_name_list = inspector.get_table_names()
 ```
@@ -58,9 +58,12 @@ The credentials for the databases are stored locally in YAML files. In order to 
 create_engine() method above, [PyYAML](https://pyyaml.org/wiki/PyYAMLDocumentation) was used to read the YAML files and load 
 the contents into a dictionary:
 
-```
+```python
 # Use context manager to open file
 with open(self.filename, 'r') as file:
     # load contents into dictionary
     contents_dictionary = yaml.safe_load(file)
 ```
+
+### Tabula
+
