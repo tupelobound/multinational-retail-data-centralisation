@@ -222,6 +222,17 @@ loads data to the local database.
 
 ## SQL Queries
 
+The project also contains two files with a series of SQL queries, `database_schema.sql` and `business_queries.sql`. The first
+files contains queries that alter tables, such as changing data types and adding primary and foreign keys. The second file
+contains queries for extracting insights from the data, such as finding out how certain types of store are performing in a
+particular country or which months produce the highest volume of sales.
+
+## Next steps
+
+For the future direction of this project, I'd like to learn more about SQLAlchemy in order to be able to integrate running the
+SQL queries via the main pipeline script. It would also be a good idea to perform more error checking/handling on the database/
+API connection processes.
+
 
 
 
