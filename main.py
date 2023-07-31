@@ -1,6 +1,6 @@
-from database_utils import DatabaseConnector
 from data_extraction import DataExtractor
 from data_cleaning import DataCleaning
+from database_utils import DatabaseConnector
 
 if __name__ == "__main__":
     # instatiate classes for connecting to databases
