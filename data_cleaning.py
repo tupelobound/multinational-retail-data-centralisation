@@ -79,7 +79,7 @@ class DataCleaning:
         '''
         cards = dataframe
         # reset index
-        cards.reset_index(inplace=True)
+        cards.reset_index(inplace=True, drop=True)
         # drop rows that contain 'NULL' strings
         cards.drop(cards[cards.card_number == 'NULL'].index, inplace=True)
         # drop rows where expiry date is not standard 5 characters in length
